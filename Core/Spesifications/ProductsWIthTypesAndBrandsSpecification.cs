@@ -4,10 +4,28 @@ namespace Core.Spesifications
 {
     public class ProductsWIthTypesAndBrandsSpecification : BaseSpesification<Product>
     {
-        public ProductsWIthTypesAndBrandsSpecification()
+
+        public ProductsWIthTypesAndBrandsSpecification(string sort)
         {
             AddIncule(x => x.ProductType);
             AddIncule(x => x.ProductBrand);
+            AddOrderBy(x => x.Name);
+
+            if (!string.IsNullOrEmpty(sort))
+            {
+                switch (sort)
+                {
+                    case "priceAsc":
+                        AddOrderBy(p => p.Price);
+                        break;
+                    case "priceDesc":
+                        AddOrderByDescending(p => p.Price);
+                        break;
+                    default:
+                        AddOrderBy(n => n.Name);
+                        break;
+                }
+            }
         }
 
         public ProductsWIthTypesAndBrandsSpecification(int id)
