@@ -5,7 +5,11 @@ namespace Core.Spesifications
     public class ProductsWIthTypesAndBrandsSpecification : BaseSpesification<Product>
     {
 
-        public ProductsWIthTypesAndBrandsSpecification(string sort)
+        public ProductsWIthTypesAndBrandsSpecification(string sort, int? brandId, int? typeId)
+            : base(x => 
+                (!brandId.HasValue || x.ProductBrandId == brandId) && 
+                (!typeId.HasValue || x.ProductTypeId == typeId)
+            )
         {
             AddIncule(x => x.ProductType);
             AddIncule(x => x.ProductBrand);
