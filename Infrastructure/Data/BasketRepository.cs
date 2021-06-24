@@ -10,7 +10,7 @@ namespace Infrastructure.Data
     public class BasketRepository : IBasketRepository
     {
         private readonly IDatabase _database;
-        public BasketRepository(IConnectionMultiplexer redis )
+        public BasketRepository(IConnectionMultiplexer redis)
         {
             _database = redis.GetDatabase();
         }
@@ -30,8 +30,8 @@ namespace Infrastructure.Data
         {
             var createad = await _database.StringSetAsync(basket.Id,
                 JsonSerializer.Serialize(basket), TimeSpan.FromDays(30));
-            
-            if(!createad) return null;
+
+            if (!createad) return null;
 
             return await GetBasketAsync(basket.Id);
 
