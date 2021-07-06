@@ -20,12 +20,12 @@ export class AccountService {
     return this.currentUserSource.value;
   }
 
-  loadCurrentUser(token: string){
+  loadCurrentUser(token: string) {
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', `Bearer ${token}`);
 
-    return this.hhtp.get(this.baseUrl + 'account', {headers}).pipe(
-      map((user: IUser) =>{
+    return this.hhtp.get(this.baseUrl + 'account', { headers }).pipe(
+      map((user: IUser) => {
         if (user) {
           localStorage.setItem('token', user.token);
           this.currentUserSource.next(user);
@@ -48,6 +48,7 @@ export class AccountService {
       map((user: IUser) => {
         if (user) {
           localStorage.setItem('token', user.token);
+          this.currentUserSource.next(user);
         }
       })
     )
