@@ -61,7 +61,7 @@ export class AccountService {
   }
 
   checkEmailExists(email: string) {
-    return this.hhtp.get(this.baseUrl + '/account/emailexists?email=' + email);
+    return this.hhtp.get(this.baseUrl + 'account/emailexists?email=' + email);
   }
 
 }
