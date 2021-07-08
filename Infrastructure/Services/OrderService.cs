@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Core.Entities;
 using Core.Entities.OrderAggregate;
 using Core.Intefraces;
+using Core.Spesifications;
 
 namespace Infrastructure.Services
 {
@@ -45,19 +46,23 @@ namespace Infrastructure.Services
             return order;
         }
 
-        public Task<IReadOnlyList<DeliveryMethod>> GetDeliveryMethodsAsync()
+        public async Task<IReadOnlyList<DeliveryMethod>> GetDeliveryMethodsAsync()
         {
-            throw new System.NotImplementedException();
+            return await _unitOfWork.Repository<DeliveryMethod>().ListAllAsync();
         }
 
-        public Task<Order> GetOrderByIdAsync(int id, int buyerEmail)
+        public async Task<Order> GetOrderByIdAsync(int id, string buyerEmail)
         {
-            throw new System.NotImplementedException();
+            var spec = new OrderWithItemsAndOrderingSpecification(id, buyerEmail);
+
+            return await _unitOfWork.Repository<Order>().GetEntityWithSpec(spec);
         }
 
-        public Task<IReadOnlyList<Order>> GetOrdersForUserAsync(string buyerEmail)
+        public async Task<IReadOnlyList<Order>> GetOrdersForUserAsync(string buyerEmail)
         {
-            throw new System.NotImplementedException();
+            var spec = new OrderWithItemsAndOrderingSpecification(buyerEmail);
+
+            return await _unitOfWork.Repository<Order>().ListAsync(spec);
         }
     }
 }
