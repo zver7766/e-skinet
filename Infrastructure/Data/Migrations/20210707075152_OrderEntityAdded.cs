@@ -14,7 +14,7 @@ namespace Infrastructure.Data.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     ShortName = table.Column<string>(type: "TEXT", nullable: true),
-                    DeliveryType = table.Column<string>(type: "TEXT", nullable: true),
+                    DeliveryTime = table.Column<string>(type: "TEXT", nullable: true),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
                     Price = table.Column<double>(type: "decimal(18,2)", nullable: false)
                 },
