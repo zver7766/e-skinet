@@ -1,6 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\API",
+    "\\API\\Dtos"
   ],
+  "SelectedNode": "\\API\\Dtos\\AddressDto.cs",
   "PreviewInSolutionExplorer": false
 }
