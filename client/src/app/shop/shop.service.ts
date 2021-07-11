@@ -42,7 +42,7 @@ export class ShopService {
       )
   }
 
-  getProduct(id : number){
+  getProduct(id: number) {
     return this.http.get<IProduct>(this.baseUrl + 'products/' + id);
   }
 

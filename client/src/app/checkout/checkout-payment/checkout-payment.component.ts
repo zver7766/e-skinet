@@ -15,8 +15,8 @@ import { CheckoutService } from '../checkout.service';
 export class CheckoutPaymentComponent implements OnInit {
   @Input() checkoutForm: FormGroup;
 
-  constructor(private basketService: BasketService, private checkoutService: CheckoutService,
-    private toastr: ToastrService, private router: Router) { }
+  constructor(private basketService: BasketService, private checkoutService: CheckoutService, 
+      private toastr: ToastrService, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -27,13 +27,12 @@ export class CheckoutPaymentComponent implements OnInit {
     this.checkoutService.createOrder(orderToCreate).subscribe((order: IOrder) => {
       this.toastr.success('Order created successfully');
       this.basketService.deleteLocalBasket(basket.id);
-
-      const navigationExtras: NavigationExtras = { state: order };
+      const navigationExtras: NavigationExtras = {state: order};
       this.router.navigate(['checkout/success'], navigationExtras);
     }, error => {
       this.toastr.error(error.message);
       console.log(error);
-    });
+    })
   }
 
   private getOrderToCreate(basket: IBasket) {
@@ -43,7 +42,5 @@ export class CheckoutPaymentComponent implements OnInit {
       shipToAddress: this.checkoutForm.get('addressForm').value
     };
   }
-
-
 
 }

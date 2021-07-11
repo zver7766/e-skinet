@@ -5,7 +5,7 @@ import { BehaviorSubject, of, ReplaySubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { IAddress } from '../shared/models/address';
-import { IUser } from '../shared/models/User';
+import { IUser } from '../shared/models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -15,10 +15,10 @@ export class AccountService {
   private currentUserSource = new ReplaySubject<IUser>(1);
   currentUser$ = this.currentUserSource.asObservable();
 
-  constructor(private hhtp: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   loadCurrentUser(token: string) {
-    if (token === null) {
+    if (token == null) {
       this.currentUserSource.next(null);
       return of(null);
     }
@@ -26,27 +26,29 @@ export class AccountService {
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', `Bearer ${token}`);
 
-    return this.hhtp.get(this.baseUrl + 'account', { headers }).pipe(
+    return this.http.get(this.baseUrl + 'account', {headers}).pipe(
       map((user: IUser) => {
         if (user) {
           localStorage.setItem('token', user.token);
           this.currentUserSource.next(user);
         }
       })
-    );
+    )
   }
 
   login(values: any) {
-    return this.hhtp.post(this.baseUrl + 'account/login', values).pipe(
+    return this.http.post(this.baseUrl + 'account/login', values).pipe(
       map((user: IUser) => {
-        localStorage.setItem('token', user.token);
-        this.currentUserSource.next(user);
+        if (user) {
+          localStorage.setItem('token', user.token);
+          this.currentUserSource.next(user);
+        }
       })
-    );
+    )
   }
 
   register(values: any) {
-    return this.hhtp.post(this.baseUrl + 'account/register', values).pipe(
+    return this.http.post(this.baseUrl + 'account/register', values).pipe(
       map((user: IUser) => {
         if (user) {
           localStorage.setItem('token', user.token);
@@ -63,15 +65,14 @@ export class AccountService {
   }
 
   checkEmailExists(email: string) {
-    return this.hhtp.get(this.baseUrl + 'account/emailexists?email=' + email);
+    return this.http.get(this.baseUrl + 'account/emailexists?email=' + email);
   }
 
   getUserAddress() {
-    return this.hhtp.get<IAddress>(this.baseUrl + 'account/address');
+    return this.http.get<IAddress>(this.baseUrl + 'account/address');
   }
 
   updateUserAddress(address: IAddress) {
-    return this.hhtp.put<IAddress>(this.baseUrl + 'account/address', address);
+    return this.http.put<IAddress>(this.baseUrl + 'account/address', address);
   }
-
 }

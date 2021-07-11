@@ -24,16 +24,17 @@ export class RegisterComponent implements OnInit {
     this.registerForm = this.fb.group({
       displayName: [null, [Validators.required]],
       email: [null, 
-        [Validators.required, Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')],
+        [Validators.required, Validators
+        .pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')],
         [this.validateEmailNotTaken()]
       ],
-      password: [null, [Validators.required]]
+      password: [null, Validators.required]
     });
   }
 
   onSubmit() {
     this.accountService.register(this.registerForm.value).subscribe(response => {
-      this.router.navigateByUrl('//shop');
+      this.router.navigateByUrl('/shop');
     }, error => {
       console.log(error);
       this.errors = error.errors;
@@ -49,12 +50,12 @@ export class RegisterComponent implements OnInit {
           }
           return this.accountService.checkEmailExists(control.value).pipe(
             map(res => {
-              return res ? { emailExists: true } : null;
+               return res ? {emailExists: true} : null;
             })
           );
         })
-      );
-    };
+      )
+    }
   }
 
 }

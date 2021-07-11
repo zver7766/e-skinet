@@ -20,7 +20,7 @@ export class CheckoutDeliveryComponent implements OnInit {
       this.deliveryMethods = dm;
     }, error => {
       console.log(error);
-    });
+    })
   }
 
   setShippingPrice(deliveryMethod: IDeliveryMethod) {

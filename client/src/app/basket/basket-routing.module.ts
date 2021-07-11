@@ -4,13 +4,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { BasketComponent } from './basket.component';
 
 const routes: Routes = [
-  { path: '', component: BasketComponent }
+  {path: '', component: BasketComponent}
 ]
 
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule,
     RouterModule.forChild(routes)
   ],
   exports: [RouterModule]

@@ -18,25 +18,25 @@ export class BasketService {
   basketTotal$ = this.basketTotalSource.asObservable();
   shipping = 0;
 
-  constructor(private hhtp: HttpClient) { }
-
+  constructor(private http: HttpClient) { }
+  
   setShippingPrice(deliveryMethod: IDeliveryMethod) {
     this.shipping = deliveryMethod.price;
     this.calculateTotals();
   }
 
   getBasket(id: string) {
-    return this.hhtp.get(this.baseUrl + 'basket?id=' + id)
+    return this.http.get(this.baseUrl + 'basket?id=' + id)
       .pipe(
         map((basket: IBasket) => {
           this.basketSource.next(basket);
           this.calculateTotals();
         })
-      );
+      )
   }
 
   setBasket(basket: IBasket) {
-    return this.hhtp.post(this.baseUrl + 'basket', basket).subscribe((response: IBasket) => {
+    return this.http.post(this.baseUrl + 'basket', basket).subscribe((response: IBasket) => {
       this.basketSource.next(response);
       this.calculateTotals();
     }, error => {
@@ -52,7 +52,6 @@ export class BasketService {
     const itemToAdd: IBasketItem = this.mapProductItemToBasketItem(item, quantity);
     const basket = this.getCurrentBasketValue() ?? this.createBasket();
     basket.items = this.addOrUpdateItem(basket.items, itemToAdd, quantity);
-
     this.setBasket(basket);
   }
 
@@ -60,7 +59,6 @@ export class BasketService {
     const basket = this.getCurrentBasketValue();
     const foundItemIndex = basket.items.findIndex(x => x.id === item.id);
     basket.items[foundItemIndex].quantity++;
-
     this.setBasket(basket);
   }
 
@@ -69,12 +67,12 @@ export class BasketService {
     const foundItemIndex = basket.items.findIndex(x => x.id === item.id);
     if (basket.items[foundItemIndex].quantity > 1) {
       basket.items[foundItemIndex].quantity--;
+      this.setBasket(basket);
     } else {
       this.removeItemFromBasket(item);
     }
-
-    this.setBasket(basket);
   }
+
   removeItemFromBasket(item: IBasketItem) {
     const basket = this.getCurrentBasketValue();
     if (basket.items.some(x => x.id === item.id)) {
@@ -82,18 +80,9 @@ export class BasketService {
       if (basket.items.length > 0) {
         this.setBasket(basket);
       } else {
-        this.deleteBasket(basket);
+        this.deleteBasket(basket); 
       }
     }
-  }
-  deleteBasket(basket: IBasket) {
-    return this.hhtp.delete(this.baseUrl + 'basket?id=' + basket.id).subscribe(() => {
-      this.basketSource.next(null);
-      this.basketTotalSource.next(null);
-      localStorage.removeItem('basket_id');
-    }, error => {
-      console.log(error);
-    });
   }
 
   deleteLocalBasket(id: string) {
@@ -102,32 +91,39 @@ export class BasketService {
     localStorage.removeItem('basket_id');
   }
 
+  deleteBasket(basket: IBasket) {
+    return this.http.delete(this.baseUrl + 'basket?id=' + basket.id).subscribe(() => {
+      this.basketSource.next(null);
+      this.basketTotalSource.next(null);
+      localStorage.removeItem('basket_id');
+    }, error => {
+      console.log(error);
+    })
+  }
+
   private calculateTotals() {
     const basket = this.getCurrentBasketValue();
     const shipping = this.shipping;
     const subtotal = basket.items.reduce((a, b) => (b.price * b.quantity) + a, 0);
     const total = subtotal + shipping;
-    this.basketTotalSource.next({ shipping, total, subtotal });
+    this.basketTotalSource.next({shipping, total, subtotal});
   }
+
 
   private addOrUpdateItem(items: IBasketItem[], itemToAdd: IBasketItem, quantity: number): IBasketItem[] {
     const index = items.findIndex(i => i.id === itemToAdd.id);
-
     if (index === -1) {
       itemToAdd.quantity = quantity;
       items.push(itemToAdd);
-    }
-    else {
+    } else {
       items[index].quantity += quantity;
     }
-
     return items;
   }
 
   private createBasket(): IBasket {
     const basket = new Basket();
     localStorage.setItem('basket_id', basket.id);
-
     return basket;
   }
 
@@ -140,6 +136,6 @@ export class BasketService {
       quantity,
       brand: item.productBrand,
       type: item.productType
-    };
+    }
   }
 }
