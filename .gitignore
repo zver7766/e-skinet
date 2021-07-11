@@ -3,4 +3,5 @@ bin
 appsettings.json
 *.db
 client(my)
+client(my old)
 *.rdb
