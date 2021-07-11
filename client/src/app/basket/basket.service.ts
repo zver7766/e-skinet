@@ -96,6 +96,12 @@ export class BasketService {
     });
   }
 
+  deleteLocalBasket(id: string) {
+    this.basketSource.next(null);
+    this.basketTotalSource.next(null);
+    localStorage.removeItem('basket_id');
+  }
+
   private calculateTotals() {
     const basket = this.getCurrentBasketValue();
     const shipping = this.shipping;
