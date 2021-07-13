@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Core.Entities;
 using Core.Entities.OrderAggregate;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Data
@@ -18,32 +19,44 @@ namespace Infrastructure.Data
             {
                 if (!context.ProductBrands.Any())
                 {
-                    var brandsData =
-                         File.ReadAllText("../Infrastructure/Data/SeedData/brands.json");
-
-                    var brands = JsonSerializer.Deserialize<List<ProductBrand>>(brandsData);
-
-                    foreach (var item in brands)
+                    using (var transaction = context.Database.BeginTransaction())
                     {
-                        context.ProductBrands.Add(item);
-                    }
+                        var brandsData =
+                             File.ReadAllText("../Infrastructure/Data/SeedData/brands.json");
 
-                    await context.SaveChangesAsync();
+                        var brands = JsonSerializer.Deserialize<List<ProductBrand>>(brandsData);
+
+                        foreach (var item in brands)
+                        {
+                            context.ProductBrands.Add(item);
+                        }
+
+                        context.Database.ExecuteSqlInterpolated($"SET IDENTITY_INSERT dbo.ProductBrands ON;");
+                        await context.SaveChangesAsync();
+                        context.Database.ExecuteSqlInterpolated($"SET IDENTITY_INSERT dbo.ProductBrands OFF");
+                        transaction.Commit();
+                    }
                 }
 
                 if (!context.ProductTypes.Any())
                 {
-                    var typesData =
-                         File.ReadAllText("../Infrastructure/Data/SeedData/types.json");
-
-                    var types = JsonSerializer.Deserialize<List<ProductType>>(typesData);
-
-                    foreach (var item in types)
+                    using (var transaction = context.Database.BeginTransaction())
                     {
-                        context.ProductTypes.Add(item);
-                    }
+                        var typesData =
+                             File.ReadAllText("../Infrastructure/Data/SeedData/types.json");
 
-                    await context.SaveChangesAsync();
+                        var types = JsonSerializer.Deserialize<List<ProductType>>(typesData);
+
+                        foreach (var item in types)
+                        {
+                            context.ProductTypes.Add(item);
+                        }
+
+                        context.Database.ExecuteSqlInterpolated($"SET IDENTITY_INSERT dbo.ProductTypes ON;");
+                        await context.SaveChangesAsync();
+                        context.Database.ExecuteSqlInterpolated($"SET IDENTITY_INSERT dbo.ProductTypes OFF");
+                        transaction.Commit();
+                    }
                 }
 
                 if (!context.Products.Any())
@@ -63,17 +76,23 @@ namespace Infrastructure.Data
 
                 if (!context.DeliveryMethods.Any())
                 {
-                    var dmData =
-                         File.ReadAllText("../Infrastructure/Data/SeedData/delivery.json");
-
-                    var methods = JsonSerializer.Deserialize<List<DeliveryMethod>>(dmData);
-
-                    foreach (var item in methods)
+                    using (var transaction = context.Database.BeginTransaction())
                     {
-                        context.DeliveryMethods.Add(item);
-                    }
+                        var dmData =
+                             File.ReadAllText("../Infrastructure/Data/SeedData/delivery.json");
 
-                    await context.SaveChangesAsync();
+                        var methods = JsonSerializer.Deserialize<List<DeliveryMethod>>(dmData);
+
+                        foreach (var item in methods)
+                        {
+                            context.DeliveryMethods.Add(item);
+                        }
+
+                        context.Database.ExecuteSqlInterpolated($"SET IDENTITY_INSERT dbo.DeliveryMethods ON;");
+                        await context.SaveChangesAsync();
+                        context.Database.ExecuteSqlInterpolated($"SET IDENTITY_INSERT dbo.DeliveryMethods OFF");
+                        transaction.Commit();
+                    }
                 }
             }
             catch (Exception ex)
