@@ -28,6 +28,7 @@ namespace API
             services.AddAutoMapper(typeof(MappingProfiles));
 
             services.AddControllers();
+            
             services.AddDbContext<StoreContext>(x =>
                     x.UseSqlServer(_config.GetConnectionString("DefaultConnection")));
 
