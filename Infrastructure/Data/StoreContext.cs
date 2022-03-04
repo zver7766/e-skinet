@@ -14,6 +14,11 @@ namespace Infrastructure.Data
         {
         }
 
+        public StoreContext(DbContextOptionsBuilder optionsBuilder) : base(optionsBuilder.Options)
+        {
+            
+        }
+        
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductBrand> ProductBrands { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }
