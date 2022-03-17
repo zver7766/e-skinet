@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Infrastructure.Data.Config.DeliveryMethodConfiguration" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12.25" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\Config\DeliveryMethodConfiguration.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Infrastructure.Data.Config.OrderConfiguration" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15" Y="1.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\Config\OrderConfiguration.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Infrastructure.Data.Config.OrderItemConfiguration" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\Config\OrderItemConfiguration.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Infrastructure.Data.Config.ProductConfiguration" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12.25" Y="1.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\Config\ProductConfiguration.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Infrastructure.Data.Migrations.SQLServerinitial">
+    <Position X="17" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAI=</HashCode>
+      <FileName>Data\Migrations\20210713093744_SQL Server initial.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Infrastructure.Data.Migrations.StoreContextModelSnapshot">
+    <Position X="14.5" Y="4.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Data\Migrations\StoreContextModelSnapshot.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Infrastructure.Data.BasketRepository" BaseTypeListCollapsed="true">
+    <Position X="1.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAAAAAAAAAAAAAAAEAAQAAQAAAAAAAAA=</HashCode>
+      <FileName>Data\BasketRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Infrastructure.Data.GenericRepository&lt;T&gt;" BaseTypeListCollapsed="true">
+    <Position X="3.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAYAAAAAAAAARAAAAAAACAAAAAEAIAAAAAAAAAEAIAA=</HashCode>
+      <FileName>Data\GenericRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Infrastructure.Data.SpecificationEvaluator&lt;TEntity&gt;">
+    <Position X="12.25" Y="4.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>Data\SpecificationEvaluator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Infrastructure.Data.StoreContext">
+    <Position X="17" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAQAAEAAAAAAAAAAAAAEAAAAAAgAAAgAAAAAAQ=</HashCode>
+      <FileName>Data\StoreContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Infrastructure.Data.StoreContextSeed">
+    <Position X="17" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\StoreContextSeed.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Infrastructure.Data.UnitOfWork" BaseTypeListCollapsed="true">
+    <Position X="5.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAACAABAIIAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\UnitOfWork.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Infrastructure.Identity.Migrations.SQLServerIdentityinitial">
+    <Position X="12.25" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAI=</HashCode>
+      <FileName>Identity\Migrations\20210713093909_SQL Server Identity initial.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Infrastructure.Identity.Migrations.AppIdentityDbContextModelSnapshot">
+    <Position X="12.25" Y="7.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Identity\Migrations\AppIdentityDbContextModelSnapshot.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Infrastructure.Identity.AppIdentityDbContext">
+    <Position X="14.75" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Identity\AppIdentityDbContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Infrastructure.Identity.AppIdentityDbContextSeed">
+    <Position X="12.25" Y="6" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Identity\AppIdentityDbContextSeed.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Infrastructure.Services.OrderService" BaseTypeListCollapsed="true">
+    <Position X="10.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACgABAAgAAAAAAAAAABAAAAAAAACAAAAA=</HashCode>
+      <FileName>Services\OrderService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Infrastructure.Services.ResponseCacheService" BaseTypeListCollapsed="true">
+    <Position X="7" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAQAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\ResponseCacheService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Infrastructure.Services.TokenService" BaseTypeListCollapsed="true">
+    <Position X="8.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAEAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\TokenService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Core.Intefraces.IBasketRepository">
+    <Position X="1.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="Core.Intefraces.IGenericRepository&lt;T&gt;">
+    <Position X="3.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="Core.Intefraces.IOrderService">
+    <Position X="10.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="Core.Intefraces.IResponseCacheService">
+    <Position X="7" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="Core.Intefraces.ITokenService">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="Core.Intefraces.IUnitOfWork">
+    <Position X="5.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
