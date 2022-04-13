@@ -6,7 +6,9 @@ namespace Core.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        IGenericRepository<TEntity> Repository<TEntity>() where TEntity : BaseEntity;
+        // From here tight coupling with integer id!
+        IGenericRepository<TEntity, int> Repository<TEntity>()
+            where TEntity : class, IEntity<int>;
 
         Task<int> Complete(); 
     }

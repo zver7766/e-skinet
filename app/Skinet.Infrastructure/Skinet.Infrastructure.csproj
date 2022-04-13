@@ -4,6 +4,7 @@
     <ProjectReference Include="..\Skinet.Domain\Skinet.Domain.csproj" />
   </ItemGroup>
     <ItemGroup>
+        <PackageReference Include="Bogus" Version="34.0.2" />
         <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.7">
           <PrivateAssets>all</PrivateAssets>

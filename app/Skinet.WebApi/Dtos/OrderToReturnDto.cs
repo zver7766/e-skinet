@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Core.Entities.OrderAggregate;
+using Core.Entities.ValueObjects;
 
 namespace API.Dtos
 {

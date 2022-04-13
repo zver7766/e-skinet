@@ -1,15 +1,27 @@
 using System;
 using System.Collections.Generic;
+using Core.Entities.Enums;
+using Core.Entities.ValueObjects;
 
 namespace Core.Entities.OrderAggregate
 {
-    public class Order : BaseEntity
+    public class Order : Entity<int>
     {
-        public Order()
-        {
-        }
+        public Email? BuyerEmail { get; private set; }
+        public DateTimeOffset OrderDate { get; private set; } = DateTimeOffset.Now;
+        public Address? ShipToAddress { get; private set; }
+        public DeliveryMethod? DeliveryMethod { get; private set; }
+        public IReadOnlyList<OrderItem> OrderItems { get; private set; }
+        public Price Subtotal { get; private set; }
+        public OrderStatus Status { get; private set; } = OrderStatus.Pending;
+        
+        public string? PaymentIntentId { get; private set; }
 
-        public Order(IReadOnlyList<OrderItem> orderItems, string buyerEmail, Address shipToAddress, DeliveryMethod deliveryMethod, decimal subtotal)
+        public Order(IReadOnlyList<OrderItem> orderItems,
+            Price subtotal,
+            Email? buyerEmail = default,
+            Address? shipToAddress = default,
+            DeliveryMethod? deliveryMethod = default)
         {
             BuyerEmail = buyerEmail;
             ShipToAddress = shipToAddress;
@@ -17,19 +29,16 @@ namespace Core.Entities.OrderAggregate
             OrderItems = orderItems;
             Subtotal = subtotal;
         }
-
-        public string BuyerEmail { get; set; }
-        public DateTimeOffset OrderDate { get; set; } = DateTimeOffset.Now;
-        public Address ShipToAddress { get; set; }
-        public DeliveryMethod DeliveryMethod { get; set; }
-        public IReadOnlyList<OrderItem> OrderItems { get; set; }
-        public decimal Subtotal { get; set; }
-        public OrderStatus Status { get; set; } = OrderStatus.Pending;
-        public string PaymentIntentId { get; set; }
+        
+        protected Order()
+        {
+            OrderItems = default!;
+            Subtotal = default!;
+        }
 
         public decimal GetTotal()
         {
-            return Subtotal + DeliveryMethod.Price;
+            return Subtotal.Value + DeliveryMethod.Price;
         }
     }
 }

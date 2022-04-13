@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Core.Entities;
 using Core.Entities.OrderAggregate;
+using Core.Entities.ProductAggregate;
+using Core.Entities.ValueObjects;
 using Core.Interfaces;
 using Core.Specifications;
 
@@ -26,15 +27,17 @@ namespace Infrastructure.Services
             {
                 var productItem = await _unitOfWork.Repository<Product>().GetByIdAsync(item.Id);
                 var itemOrdered = new ProductItemOrdered(productItem.Id, productItem.Name, productItem.PictureUrl);
-                var orderItem = new OrderItem(itemOrdered, productItem.Price, item.Quantity);
+                var orderItem = new OrderItem(productItem.Price, item.Quantity, itemOrdered);
                 items.Add(orderItem);
             }
 
+            var email = new Email(buyerEmail);
+
             var deliveryMethod = await _unitOfWork.Repository<DeliveryMethod>().GetByIdAsync(deliveryMethodId);
 
-            var subtotal = items.Sum(item => item.Price * item.Quantity);
+            var subtotal = new Price(items.Sum(item => item.Price * item.Quantity));
 
-            var order = new Order(items, buyerEmail, shippingAddress, deliveryMethod, subtotal);
+            var order = new Order(items, subtotal, email, shippingAddress, deliveryMethod);
             _unitOfWork.Repository<Order>().Add(order);
 
             var result = await _unitOfWork.Complete();

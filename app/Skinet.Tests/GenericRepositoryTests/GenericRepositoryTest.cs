@@ -16,9 +16,10 @@ namespace TestProject1.GenericRepositoryTests
             StoreContext = new StoreContext(options);
         }
 
-        protected GenericRepository<T> CreateRepository<T>() where T : BaseEntity
+        protected GenericRepository<TEntity> CreateRepository<TEntity>()
+            where TEntity : class, IEntity<int>
         {
-            return new GenericRepository<T>(StoreContext);
+            return new GenericRepository<TEntity>(StoreContext);
         }
     }
 }

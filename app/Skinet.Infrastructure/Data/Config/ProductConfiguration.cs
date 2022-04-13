@@ -1,4 +1,4 @@
-using Core.Entities;
+using Core.Entities.ProductAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -6,17 +6,34 @@ namespace Infrastructure.Data.Config
 {
     public class ProductConfiguration : IEntityTypeConfiguration<Product>
     {
-        public void Configure(EntityTypeBuilder<Product> builder)
+        public void Configure(EntityTypeBuilder<Product> productBuilder)
         {
-            builder.Property(p => p.Id).IsRequired();
-            builder.Property(p => p.Name).IsRequired().HasMaxLength(150);
-            builder.Property(p => p.Description).IsRequired();
-            builder.Property(p => p.Price).HasColumnType("decimal(18,2)");
-            builder.Property(p => p.PictureUrl).IsRequired();
-            builder.HasOne(b => b.ProductBrand).WithMany()
-                 .HasForeignKey(p => p.ProductBrandId);
-            builder.HasOne(t => t.ProductType).WithMany()
-                 .HasForeignKey(p => p.ProductTypeId);
+            productBuilder.HasKey(product => product.Id);
+
+            productBuilder.Property(product => product.Id)
+                .ValueGeneratedOnAdd();
+            
+            productBuilder.Property(p => p.Name).IsRequired().HasMaxLength(150);
+            
+            productBuilder.Property(p => p.Description).IsRequired();
+            
+            productBuilder.OwnsOne(product => product.Price, priceBuilder =>
+            {
+                priceBuilder.Property(price => price.Value)
+                    .HasColumnName(nameof(Product.Price))
+                    .HasColumnType("decimal(18,2)")
+                    .IsRequired();
+            });
+            
+            productBuilder.Property(p => p.PictureUrl).IsRequired();
+            
+            productBuilder.HasOne(product => product.ProductBrand)
+                .WithMany()
+                .IsRequired();
+            
+            productBuilder.HasOne(product => product.ProductType)
+                .WithMany()
+                .IsRequired();
         }
     }
 }

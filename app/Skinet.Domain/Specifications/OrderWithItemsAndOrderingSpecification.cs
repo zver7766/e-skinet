@@ -4,7 +4,7 @@ namespace Core.Specifications
 {
     public class OrderWithItemsAndOrderingSpecification : BaseSpecification<Order>
     {
-        public OrderWithItemsAndOrderingSpecification(string email) : base(o => o.BuyerEmail == email)
+        public OrderWithItemsAndOrderingSpecification(string email) : base(o => o.BuyerEmail!.Value== email)
         {
             AddInclude(o => o.OrderItems);
             AddInclude(o => o.DeliveryMethod);
@@ -12,7 +12,7 @@ namespace Core.Specifications
         }
 
         public OrderWithItemsAndOrderingSpecification(int id, string email)
-            : base(o => o.Id == id && o.BuyerEmail == email)
+            : base(o => o.Id == id && o.BuyerEmail.Value == email)
         {
             AddInclude(o => o.OrderItems);
             AddInclude(o => o.DeliveryMethod);

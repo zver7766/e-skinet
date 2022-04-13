@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Core.Entities.ProductAggregate;
 using Core.Specifications;
 
 namespace TestProject1.TestSpecifications

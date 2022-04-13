@@ -5,7 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data
 {
-    public class SpecificationEvaluator<TEntity> where TEntity : BaseEntity
+    public class SpecificationEvaluator<TEntity>
+        where TEntity : class, IEntity<int>
     {
         public static IQueryable<TEntity> GetQuery(IQueryable<TEntity> inputQuery,
               ISpecification<TEntity> spec)

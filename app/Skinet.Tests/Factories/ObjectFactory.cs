@@ -1,4 +1,4 @@
-﻿using Core.Entities;
+﻿using Core.Entities.ProductAggregate;
 
 namespace TestProject1.Factories
 {
@@ -6,11 +6,7 @@ namespace TestProject1.Factories
     {
         public static ProductType CreateProductType(int id = 1, string name = "Test1")
         {
-            return new ProductType
-            {
-                Id = id,
-                Name = name
-            };
+            return new ProductType(name);
         }
     
     }

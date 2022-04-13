@@ -1,26 +1,8 @@
-[
-  {
-    "Id": 1,
-    "Name": "Angular"
-  },
-  {
-    "Id": 2,
-    "Name": "NetCore"
-  },
-  {
-    "Id": 3,
-    "Name": "VS Code"
-  },
-  {
-    "Id": 4,
-    "Name": "React"
-  },
-  {
-    "Id": 5,
-    "Name": "Typescript"
-  },
-  {
-    "Id": 6,
-    "Name": "Redis"
-  }
-]
+{
+  "1" : "Angular",
+  "2" : "NetCore",
+  "3" : "VS Code",
+  "4" : "React",
+  "5" : "Typescript",
+  "6" : "Redis"
+}

@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 using API.Dtos;
 using AutoMapper;
 using API.Errors;
 using Microsoft.AspNetCore.Http;
 using API.Helpers;
+using Core.Entities.ProductAggregate;
 using Core.Interfaces;
 using Core.Specifications;
 
@@ -14,13 +14,14 @@ namespace API.Controllers
 {
     public class ProductsController : BaseApiController
     {
-        private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public ProductsController(IMapper mapper,IUnitOfWork unitOfWork)
+        public ProductsController(IUnitOfWork unitOfWork,
+            IMapper mapper)
         {
-            _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         [Cached(300)]

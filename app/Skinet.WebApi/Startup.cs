@@ -23,7 +23,6 @@ namespace API
 
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddAutoMapper(typeof(MappingProfiles));
 
             services.AddControllers();

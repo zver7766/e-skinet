@@ -8,7 +8,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
+    public class GenericRepository<TEntity> : IGenericRepository<TEntity, int>
+        where TEntity : class, IEntity<int> 
     {
         private readonly StoreContext _context;
         public GenericRepository(StoreContext context)
@@ -16,50 +17,50 @@ namespace Infrastructure.Data
             _context = context;
         }
 
-        public async Task<T> GetByIdAsync(int id)
+        public async Task<TEntity> GetByIdAsync(int id)
         {
-            return await _context.Set<T>().FindAsync(id);
+            return await _context.Set<TEntity>().FindAsync(id);
         }
 
-        public async Task<IReadOnlyList<T>> ListAllAsync()
+        public async Task<IReadOnlyList<TEntity>> ListAllAsync()
         {
-            return await _context.Set<T>().ToListAsync();
+            return await _context.Set<TEntity>().ToListAsync();
         }
 
-        public async Task<T> GetEntityWithSpec(ISpecification<T> spec)
+        public async Task<TEntity> GetEntityWithSpec(ISpecification<TEntity> spec)
         {
             return await ApplySpecification(spec).FirstOrDefaultAsync();
         }
 
-        public async Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec)
+        public async Task<IReadOnlyList<TEntity>> ListAsync(ISpecification<TEntity> spec)
         {
             return await ApplySpecification(spec).ToListAsync();
         }
 
-        public async Task<int> CountAsync(ISpecification<T> spec)
+        public async Task<int> CountAsync(ISpecification<TEntity> spec)
         {
             return await ApplySpecification(spec).CountAsync();
         }
 
-        private IQueryable<T> ApplySpecification(ISpecification<T> spec)
+        private IQueryable<TEntity> ApplySpecification(ISpecification<TEntity> spec)
         {
-            return SpecificationEvaluator<T>.GetQuery(_context.Set<T>().AsQueryable(), spec);
+            return SpecificationEvaluator<TEntity>.GetQuery(_context.Set<TEntity>().AsQueryable(), spec);
         }
 
-        public void Add(T entity)
+        public void Add(TEntity entity)
         {
-            _context.Set<T>().Add(entity);
+            _context.Set<TEntity>().Add(entity);
         }
 
-        public void Update(T entity)
+        public void Update(TEntity entity)
         {
-            _context.Set<T>().Attach(entity);
+            _context.Set<TEntity>().Attach(entity);
             _context.Entry(entity).State = EntityState.Modified;
         }
 
-        public void Delete(T entity)
+        public void Delete(TEntity entity)
         {
-            _context.Set<T>().Remove(entity);
+            _context.Set<TEntity>().Remove(entity);
         }
     }
 }

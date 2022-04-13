@@ -1,20 +1,26 @@
+using Core.Entities.ValueObjects;
+
 namespace Core.Entities.OrderAggregate
 {
-    public class OrderItem : BaseEntity
+    public class OrderItem : Entity<int>
     {
-        public OrderItem()
-        {
-        }
+        public ProductItemOrdered? ItemOrdered { get; set; }
+        public Price Price { get; set; }
+        public int Quantity { get; set; }
 
-        public OrderItem(ProductItemOrdered itemOrdered, decimal price, int quantity)
+        public OrderItem(Price price, int quantity, ProductItemOrdered? itemOrdered = default)
         {
             ItemOrdered = itemOrdered;
             Price = price;
             Quantity = quantity;
         }
-
-        public ProductItemOrdered ItemOrdered { get; set; }
-        public decimal Price { get; set; }
-        public int Quantity { get; set; }
+        
+        protected OrderItem()
+        {
+            Price = default!;
+            Quantity = default!;
+        }
+        
+        
     }
 }

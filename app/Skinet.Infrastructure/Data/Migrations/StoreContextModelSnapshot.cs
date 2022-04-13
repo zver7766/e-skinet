@@ -19,7 +19,7 @@ namespace Infrastructure.Data.Migrations
                 .HasAnnotation("ProductVersion", "5.0.7")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Skinet.Domain.Entities.OrderAggregate.DeliveryMethod", b =>
+            modelBuilder.Entity("Core.Entities.OrderAggregate.DeliveryMethod", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -32,9 +32,6 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<string>("ShortName")
                         .HasColumnType("nvarchar(max)");
 
@@ -43,15 +40,12 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("DeliveryMethods");
                 });
 
-            modelBuilder.Entity("Skinet.Domain.Entities.OrderAggregate.Order", b =>
+            modelBuilder.Entity("Core.Entities.OrderAggregate.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("BuyerEmail")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("DeliveryMethodId")
                         .HasColumnType("int");
@@ -66,9 +60,6 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Subtotal")
-                        .HasColumnType("decimal(18,2)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("DeliveryMethodId");
@@ -76,7 +67,7 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("Skinet.Domain.Entities.OrderAggregate.OrderItem", b =>
+            modelBuilder.Entity("Core.Entities.OrderAggregate.OrderItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -85,9 +76,6 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<int?>("OrderId")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -99,7 +87,7 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("OrderItems");
                 });
 
-            modelBuilder.Entity("Skinet.Domain.Entities.Product", b =>
+            modelBuilder.Entity("Core.Entities.ProductAggregate.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -119,9 +107,6 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<int>("ProductBrandId")
                         .HasColumnType("int");
 
@@ -137,7 +122,7 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Skinet.Domain.Entities.ProductBrand", b =>
+            modelBuilder.Entity("Core.Entities.ProductAggregate.ProductBrand", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -145,6 +130,7 @@ namespace Infrastructure.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -152,7 +138,7 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("ProductBrands");
                 });
 
-            modelBuilder.Entity("Skinet.Domain.Entities.ProductType", b =>
+            modelBuilder.Entity("Core.Entities.ProductAggregate.ProductType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -160,6 +146,7 @@ namespace Infrastructure.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -167,13 +154,38 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("ProductTypes");
                 });
 
-            modelBuilder.Entity("Skinet.Domain.Entities.OrderAggregate.Order", b =>
+            modelBuilder.Entity("Core.Entities.OrderAggregate.DeliveryMethod", b =>
                 {
-                    b.HasOne("Skinet.Domain.Entities.OrderAggregate.DeliveryMethod", "DeliveryMethod")
+                    b.OwnsOne("Core.Entities.ValueObjects.Price", "Price", b1 =>
+                        {
+                            b1.Property<int>("DeliveryMethodId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<decimal>("Value")
+                                .HasColumnType("decimal(18,2)")
+                                .HasColumnName("Price");
+
+                            b1.HasKey("DeliveryMethodId");
+
+                            b1.ToTable("DeliveryMethods");
+
+                            b1.WithOwner()
+                                .HasForeignKey("DeliveryMethodId");
+                        });
+
+                    b.Navigation("Price")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Core.Entities.OrderAggregate.Order", b =>
+                {
+                    b.HasOne("Core.Entities.OrderAggregate.DeliveryMethod", "DeliveryMethod")
                         .WithMany()
                         .HasForeignKey("DeliveryMethodId");
 
-                    b.OwnsOne("Skinet.Domain.Entities.OrderAggregate.Address", "ShipToAddress", b1 =>
+                    b.OwnsOne("Core.Entities.ValueObjects.Address", "ShipToAddress", b1 =>
                         {
                             b1.Property<int>("OrderId")
                                 .ValueGeneratedOnAdd()
@@ -181,22 +193,34 @@ namespace Infrastructure.Data.Migrations
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                             b1.Property<string>("City")
-                                .HasColumnType("nvarchar(max)");
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("City");
 
                             b1.Property<string>("FirstName")
-                                .HasColumnType("nvarchar(max)");
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("FirstName");
 
                             b1.Property<string>("LastName")
-                                .HasColumnType("nvarchar(max)");
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("LastName");
 
                             b1.Property<string>("State")
-                                .HasColumnType("nvarchar(max)");
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("State");
 
                             b1.Property<string>("Street")
-                                .HasColumnType("nvarchar(max)");
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("Street");
 
                             b1.Property<string>("ZipCode")
-                                .HasColumnType("nvarchar(max)");
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("ZipCode");
 
                             b1.HasKey("OrderId");
 
@@ -206,19 +230,82 @@ namespace Infrastructure.Data.Migrations
                                 .HasForeignKey("OrderId");
                         });
 
+                    b.OwnsOne("Core.Entities.ValueObjects.Email", "BuyerEmail", b1 =>
+                        {
+                            b1.Property<int>("OrderId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("BuyerEmail");
+
+                            b1.HasKey("OrderId");
+
+                            b1.ToTable("Orders");
+
+                            b1.WithOwner()
+                                .HasForeignKey("OrderId");
+                        });
+
+                    b.OwnsOne("Core.Entities.ValueObjects.Price", "Subtotal", b1 =>
+                        {
+                            b1.Property<int>("OrderId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<decimal>("Value")
+                                .HasColumnType("decimal(18,2)")
+                                .HasColumnName("Subtotal");
+
+                            b1.HasKey("OrderId");
+
+                            b1.ToTable("Orders");
+
+                            b1.WithOwner()
+                                .HasForeignKey("OrderId");
+                        });
+
+                    b.Navigation("BuyerEmail");
+
                     b.Navigation("DeliveryMethod");
 
                     b.Navigation("ShipToAddress");
+
+                    b.Navigation("Subtotal")
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("Skinet.Domain.Entities.OrderAggregate.OrderItem", b =>
+            modelBuilder.Entity("Core.Entities.OrderAggregate.OrderItem", b =>
                 {
-                    b.HasOne("Skinet.Domain.Entities.OrderAggregate.Order", null)
+                    b.HasOne("Core.Entities.OrderAggregate.Order", null)
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.OwnsOne("Skinet.Domain.Entities.OrderAggregate.ProductItemOrdered", "ItemOrdered", b1 =>
+                    b.OwnsOne("Core.Entities.ValueObjects.Price", "Price", b1 =>
+                        {
+                            b1.Property<int>("OrderItemId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<decimal>("Value")
+                                .HasColumnType("decimal(18,2)")
+                                .HasColumnName("Price");
+
+                            b1.HasKey("OrderItemId");
+
+                            b1.ToTable("OrderItems");
+
+                            b1.WithOwner()
+                                .HasForeignKey("OrderItemId");
+                        });
+
+                    b.OwnsOne("Core.Entities.ValueObjects.ProductItemOrdered", "ItemOrdered", b1 =>
                         {
                             b1.Property<int>("OrderItemId")
                                 .ValueGeneratedOnAdd()
@@ -226,13 +313,16 @@ namespace Infrastructure.Data.Migrations
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                             b1.Property<string>("PictureUrl")
-                                .HasColumnType("nvarchar(max)");
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("PictureUrl");
 
-                            b1.Property<int>("ProductItemId")
-                                .HasColumnType("int");
+                            b1.Property<int?>("ProductItemId")
+                                .HasColumnType("int")
+                                .HasColumnName("ProductItemId");
 
                             b1.Property<string>("ProductName")
-                                .HasColumnType("nvarchar(max)");
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("ProductName");
 
                             b1.HasKey("OrderItemId");
 
@@ -243,20 +333,45 @@ namespace Infrastructure.Data.Migrations
                         });
 
                     b.Navigation("ItemOrdered");
+
+                    b.Navigation("Price")
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("Skinet.Domain.Entities.Product", b =>
+            modelBuilder.Entity("Core.Entities.ProductAggregate.Product", b =>
                 {
-                    b.HasOne("Skinet.Domain.Entities.ProductBrand", "ProductBrand")
+                    b.HasOne("Core.Entities.ProductAggregate.ProductBrand", "ProductBrand")
                         .WithMany()
                         .HasForeignKey("ProductBrandId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Skinet.Domain.Entities.ProductType", "ProductType")
+                    b.HasOne("Core.Entities.ProductAggregate.ProductType", "ProductType")
                         .WithMany()
                         .HasForeignKey("ProductTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("Core.Entities.ValueObjects.Price", "Price", b1 =>
+                        {
+                            b1.Property<int>("ProductId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<decimal>("Value")
+                                .HasColumnType("decimal(18,2)")
+                                .HasColumnName("Price");
+
+                            b1.HasKey("ProductId");
+
+                            b1.ToTable("Products");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ProductId");
+                        });
+
+                    b.Navigation("Price")
                         .IsRequired();
 
                     b.Navigation("ProductBrand");
@@ -264,7 +379,7 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("ProductType");
                 });
 
-            modelBuilder.Entity("Skinet.Domain.Entities.OrderAggregate.Order", b =>
+            modelBuilder.Entity("Core.Entities.OrderAggregate.Order", b =>
                 {
                     b.Navigation("OrderItems");
                 });

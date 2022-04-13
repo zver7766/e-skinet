@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Core.Entities;
+using Core.Entities.ProductAggregate;
 using FluentAssertions;
 using TestProject1.Factories;
 using TestProject1.TestSpecifications;
