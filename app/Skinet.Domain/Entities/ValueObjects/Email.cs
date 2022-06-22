@@ -2,12 +2,18 @@
 {
     public class Email : SingleValueObject<string>
     {
-        public Email(string value) : base(value)
+        private Email(string value) : base(value)
         {
         }
 
         protected Email() : base(default!)
         {
+        }
+
+        public static Result<Email> Create(string email)
+        {
+
+            return Result.Ok(new Email(email));
         }
         
     }

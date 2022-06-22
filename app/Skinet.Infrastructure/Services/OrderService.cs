@@ -31,13 +31,13 @@ namespace Infrastructure.Services
                 items.Add(orderItem);
             }
 
-            var email = new Email(buyerEmail);
+            var email = Email.Create(buyerEmail);
 
             var deliveryMethod = await _unitOfWork.Repository<DeliveryMethod>().GetByIdAsync(deliveryMethodId);
 
-            var subtotal = new Price(items.Sum(item => item.Price * item.Quantity));
+            var subtotal = Price.Create(items.Sum(item => item.Price * item.Quantity));
 
-            var order = new Order(items, subtotal, email, shippingAddress, deliveryMethod);
+            var order = new Order(items, subtotal.Value, email.Value, shippingAddress, deliveryMethod);
             _unitOfWork.Repository<Order>().Add(order);
 
             var result = await _unitOfWork.Complete();

@@ -165,11 +165,11 @@ namespace Infrastructure.Data
                 
                     foreach (var item in products)
                     {
-                        var price = new Price(item.Price);
+                        var price = Price.Create(item.Price);
                         var productType = context.ProductTypes.FirstOrDefault(x => x.Id == item.ProductTypeId);
                         var productBrand = context.ProductBrands.FirstOrDefault(x => x.Id == item.ProductBrandId);
                         
-                        var product = new Product(item.Name, item.Description, price, item.PictureUrl, productType!, productBrand!);
+                        var product = new Product(item.Name, item.Description, price.Value, item.PictureUrl, productType!, productBrand!);
 
                         context.Products.Add(product);
                     }
@@ -188,9 +188,9 @@ namespace Infrastructure.Data
                 
                         foreach (var item in methods)
                         {
-                            var price = new Price(item.Price);
+                            var price = Price.Create(item.Price);
 
-                            var deliveryMethod = new DeliveryMethod(price, item.ShortName, item.DeliveryTime, item.Description);
+                            var deliveryMethod = new DeliveryMethod(price.Value, item.ShortName, item.DeliveryTime, item.Description);
                             deliveryMethod.SetValueToProperty(nameof(DeliveryMethod.Id), item.Id);
                             
                             context.DeliveryMethods.Add(deliveryMethod);
