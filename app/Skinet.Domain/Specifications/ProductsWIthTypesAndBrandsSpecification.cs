@@ -23,10 +23,10 @@ namespace Core.Specifications
                 switch (productParams.Sort)
                 {
                     case "priceAsc":
-                        AddOrderBy(p => p.Price);
+                        AddOrderBy(p => p.Price.Value);
                         break;
                     case "priceDesc":
-                        AddOrderByDescending(p => p.Price);
+                        AddOrderByDescending(p => p.Price.Value);
                         break;
                     default:
                         AddOrderBy(n => n.Name);

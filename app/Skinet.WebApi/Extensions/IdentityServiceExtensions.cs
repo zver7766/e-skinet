@@ -1,4 +1,4 @@
-using System.Text;
+using System;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,15 +12,20 @@ namespace API.Extensions
             IConfiguration config)
         {
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
+                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
                 {
-                    options.TokenValidationParameters = new TokenValidationParameters
+                    // options.RequireHttpsMetadata = false;
+                    // options.Authority = "https://sts.skoruba.local/";
+                    // options.Audience =  "app.api";
+                    options.MetadataAddress = "https://sts.skoruba.local" + "/.well-known/openid-configuration";
+
+                    options.TokenValidationParameters = new TokenValidationParameters()
                     {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Token:Key"])),
-                        ValidIssuer = config["Token:Issuer"],
                         ValidateIssuer = true,
-                        ValidateAudience = false
+                        ValidateAudience = true,
+                        ValidIssuer = "https://sts.skoruba.local",
+                        ValidAudience = "app.api",
+                        
                     };
                 });
 
